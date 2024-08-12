@@ -1,20 +1,132 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+    font-family: "Roboto", sans-serif;
+    color: rgb(45, 46, 46);
+    background-color: #f8fcd8;
+}
+
 .board {
-    display: grid;
-    grid-template-rows: repeat(3, 80px,);
+    display: none;
+    grid-template-rows: repeat(3, 80px);
     grid-template-columns: repeat(3, 80px);
     gap: 10px;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+.player-inputs {
+    all: unset;
+    gap: 12px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.player-label {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    gap: 2px;
+    text-indent: 7px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.player-input {
+    font-size: 16px;
+    padding: 4px 6px;
+    letter-spacing: 1px;
+    border: 2px solid #969696;
+    background-color: transparent;
+    border-radius: 12px;
+}
+
+.player-input:focus {
+    outline: none;
+    border-color: #5a85bd;
+}
+
+.start-button {
+    border: none;
+    background-color: #5a85bd;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+    transition: 0.3s;
+}
+
+.start-button:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.start-button:focus {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+}
+
 .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80px;
     height: 80px;
     background-color: #c7e4ae;
     border: 1px solid transparent;
     border-radius: 8px;
     transition: 0.2s;
+    font-size: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgb(45, 46, 46);
     cursor: pointer;
+}
+
+.cell.clicked {
+    cursor: not-allowed;
 }
 
 .cell:hover {
     border-color: #7aba61;
+}
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+    width: 160px;
+}
+
+.welcome > h1 {
+    margin: 0;
+    font-size: 70px;
+    align-self: flex-start;
+    color: #5a85bd;
+}
+
+.welcome > h2 {
+    margin: 0;
+    font-size: 40px;
+    align-self: center;
+    color: #7aba61;
+
+}
+
+.welcome > h3 {
+    margin: 0;
+    font-size: 30px;
+    align-self: flex-end;
+    color: rgb(207, 108, 42);
+}
+
+.turn {
+    display: none;
 }

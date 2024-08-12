@@ -1,74 +1,96 @@
 function Gameboard() {
-  const board = new Array(9).fill("");
+    const board = new Array(9).fill("");
 
-  const getBoard = () => board;
+    const getBoard = () => board;
 
-  const setToken = (value, index) => (board[index] = value);
+    const setToken = (value, index) => (board[index] = value);
 
-  return { getBoard, setToken };
+    return { getBoard, setToken };
 }
 
 function Player(name, token) {
-  const playerName = name;
-  const playerToken = token;
-  const getName = () => playerName;
-  const getToken = () => playerToken;
+    const playerName = name;
+    const playerToken = token;
+    const getName = () => playerName;
+    const getToken = () => playerToken;
 
-  return { getName, getToken };
+    return { getName, getToken };
 }
 
 function DisplayController() {
-  const renderResult = () => {};
+    const renderResult = () => {};
 
-  const renderBoard = (board, callback) => {
-    document.getElementById("player-form").classList = "form hidden";
-    const boardElement = document.getElementById("board");
-    boardElement.textContent = ""
-    board.forEach((cell, index) => {
-      const cellElement = document.createElement("div");
-      cellElement.classList = "cell";
-      cellElement.dataset.cell = index;
-      cellElement.textContent = cell;
-      if (cell) cellElement.classList = "cell clicked";
-      if (!cell) cellElement.addEventListener("click", callback);
-      boardElement.appendChild(cellElement);
-    });
-  };
+    const renderBoard = (board, callback, turn) => {
+        // document.getElementById("player-form").classList = "form";
 
-  const renderStart = () => {};
+        renderTurn(turn)
 
-  return { renderBoard };
+        const boardElement = document.getElementById("board");
+
+        boardElement.textContent = "";
+
+        board.forEach((cell, index) => {
+            const cellElement = document.createElement("div");
+            cellElement.classList = "cell";
+            cellElement.dataset.cell = index;
+            cellElement.textContent = cell;
+            if (cell) cellElement.classList = "cell clicked";
+            if (!cell) cellElement.addEventListener("click", callback);
+            boardElement.appendChild(cellElement);
+        });
+    };
+
+    const renderStart = () => {};
+
+    const renderTurn = (turn) => {
+      const turnEle = document.getElementById("turn")
+      turnEle.textContent = `Turn: ${turn.toUpperCase()}`
+    }
+
+    return { renderBoard };
 }
 
 function Game() {
-  let turn = "x";
-  let player1 = undefined;
-  let player2 = undefined;
-  const board = Gameboard();
-  const controller = DisplayController();
+    let turn = undefined;
+    let player1 = undefined;
+    let player2 = undefined;
+    const board = Gameboard();
+    const controller = DisplayController();
 
-  const makeMove = (event) => {
-    console.log({turn, board: board.getBoard()});
-    const id = event.target.dataset.cell
-    board.setToken(turn, id)
-    controller.renderBoard(board.getBoard())
-    toggleTurn()
-  };
-  const check = () => {};
-  const setPlayers = () => {
-    player1 = Player(document.getElementById("player1").value, "x");
-    player2 = Player(document.getElementById("player2").value, "o");
-  };
+    const makeMove = (event) => {
+        const id = event.target.dataset.cell;
 
-  const toggleTurn = () => (turn === "x" ? (turn = "o") : (turn = "x"));
+        board.setToken(turn, id);
 
-  const startGame = (event) => {
-    event.preventDefault();
-    setPlayers();
-    controller.renderBoard(board.getBoard(), makeMove);
-  };
+        toggleTurn();
+        
+        controller.renderBoard(board.getBoard(), makeMove, turn);
+    };
 
-  document.getElementById("player-form").addEventListener("submit", startGame);
+    const check = () => {};
+
+    const setPlayers = () => {
+        player1 = Player(document.getElementById("player1").value, "x");
+        player2 = Player(document.getElementById("player2").value, "o");
+    };
+
+    const toggleTurn = () => (turn === "x" ? (turn = "o") : (turn = "x"));
+
+    const startGame = (event) => {
+        turn = "x";
+        event.preventDefault();
+        setPlayers();
+        controller.renderBoard(board.getBoard(), makeMove, turn);
+        document.getElementById("board").style.display = "grid";
+        document.getElementById("turn").style.display = "block"
+        document.getElementById("welcome").style.display = "none";
+    };
+
+    const resetGame = () => {};
+
+    document
+        .getElementById("player-form")
+        .addEventListener("submit", startGame);
 }
 
 Game();
